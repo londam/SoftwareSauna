@@ -14,8 +14,6 @@ export default function checkStartEnd(input: InputMap): Boolean {
     return true; //for tests purposes
   }
 
-  console.log("first");
-
   if (typeof input === "string") {
     return check(input);
   } else if (Array.isArray(input)) {

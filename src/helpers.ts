@@ -1,9 +1,9 @@
-import { InputMap, Map } from "./index";
+import { InputMap, CharMap } from "./index";
 import { tests } from "./tests/mocks";
 
-function str2Arr(input: InputMap): Map {
+function str2Arr(input: InputMap): CharMap {
   // if input is multiline string, convert it to nested array
-  const map: Map =
+  const map: CharMap =
     typeof input === "string" ? input.split("\n").map((line) => line.split("")) : input;
 
   return map;

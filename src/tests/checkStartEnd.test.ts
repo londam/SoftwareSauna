@@ -1,4 +1,4 @@
-import checkStartEnd from "../src/checkStartEnd";
+import checkStartEnd from "../checkStartEnd";
 import { tests } from "./mocks";
 
 // Test Cases
@@ -18,7 +18,6 @@ describe("checkStartEnd function", () => {
   );
 
   Object.values(tests.stringValid).forEach((testCase) => {
-    console.log("------------------------------------>>>", testCase);
     test.each(testCase)("string input with valid path should pass 1: %s", (input) => {
       expect(checkStartEnd(input)).toBe(true);
     });
