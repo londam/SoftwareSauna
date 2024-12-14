@@ -14,7 +14,6 @@ describe("findStartPos function", () => {
 
   tests.arrayInvalid.missingStart.forEach((map) => {
     test("processes 2D array: %p", () => {
-      console.log("___________________________________________________", map);
       expect(findStartPos(map)).toThrow("Starting character not found!");
     });
   });

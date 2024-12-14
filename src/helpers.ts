@@ -1,5 +1,6 @@
-import { InputMap, CharMap } from "./index";
+import { endChar, startChar, validPathChar } from "./consts";
 import { tests } from "./tests/mocks";
+import { CharMap, InputMap } from "./types";
 
 function str2Arr(input: InputMap): CharMap {
   // if input is multiline string, convert it to nested array
@@ -16,3 +17,8 @@ export function turnTestsFromStrToArray(testString: Object) {
     });
   });
 }
+
+export const isValidPathChar = (char: string) => validPathChar.has(char);
+export const isStart = (char: string) => char === startChar;
+export const isEnd = (char: string) => char === endChar;
+export const isLetter = (char: string) => /^[A-Z]$/.test(char);

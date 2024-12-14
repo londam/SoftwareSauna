@@ -1,4 +1,5 @@
-import { endChar, InputMap, startChar } from "./index";
+import { endChar, startChar } from "./consts";
+import { InputMap } from "./types";
 
 export default function checkStartEnd(input: InputMap): Boolean {
   function check(input: string) {
