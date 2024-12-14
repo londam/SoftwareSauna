@@ -39,22 +39,20 @@ export function followPath(input: InputMap): Result {
   }
 }
 
-let inputMap = `
-     x-B
-       |
-@--A---+
-       |
-  x+   C
-   |   |
-   +---+`;
+// let inputMap = `
+// @---A---+
+//         |
+// x-B-+   C
+//     |   |
+//     +---+`;
 
-const inputMapA = [
-  ["@", "-", "-", "-", "A", "-", "-", "-", "+"],
-  [" ", " ", " ", " ", " ", " ", " ", " ", "|"],
-  ["x", "-", "B", "-", "+", " ", " ", " ", "|"],
-  [" ", " ", " ", " ", "|", " ", " ", " ", "|"],
-  [" ", " ", " ", " ", "+", "-", "-", "-", "C"],
-];
-let output = followPath(inputMap);
+// const inputMapA = [
+//   ["@", "-", "-", "-", "A", "-", "-", "-", "+"],
+//   [" ", " ", " ", " ", " ", " ", " ", " ", "|"],
+//   ["x", "-", "B", "-", "+", " ", " ", " ", "|"],
+//   [" ", " ", " ", " ", "|", " ", " ", " ", "|"],
+//   [" ", " ", " ", " ", "+", "-", "-", "-", "C"],
+// ];
+// let output = followPath(inputMap);
 // let output = followPath(inputMapA);
-console.log(output);
+// console.log(output);

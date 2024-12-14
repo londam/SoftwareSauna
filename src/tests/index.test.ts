@@ -1,6 +1,5 @@
 import { followPath } from "..";
 import { tests } from "./mocks";
-
 // Test Cases
 describe("followPath valid maps function", () => {
   it("should pass on basic example string & arrray", () => {
@@ -41,22 +40,18 @@ describe("followPath valid maps function", () => {
 
   it("should pass on compact example string & arrray", () => {
     tests.stringValid.compact.forEach((testcase) => {
-      console.log(testcase);
       expect(followPath(testcase[0])).toStrictEqual({ letters: testcase[1], path: testcase[2] });
     });
     tests.arrayValid.compact.forEach((testcase) => {
-      console.log(testcase);
       expect(followPath(testcase[0])).toStrictEqual({ letters: testcase[1], path: testcase[2] });
     });
   });
 
   it("should pass on ignoreAfterEnd example string & arrray", () => {
     tests.stringValid.ignoreAfterEnd.forEach((testcase) => {
-      console.log(testcase);
       expect(followPath(testcase[0])).toStrictEqual({ letters: testcase[1], path: testcase[2] });
     });
     tests.arrayValid.ignoreAfterEnd.forEach((testcase) => {
-      console.log(testcase);
       expect(followPath(testcase[0])).toStrictEqual({ letters: testcase[1], path: testcase[2] });
     });
   });
@@ -117,13 +112,11 @@ describe("followPath invalid maps function", () => {
 
   it("should pass on invalid multipleStartingPaths example string & arrray", () => {
     tests.stringInvalid.multipleStartingPaths.forEach((testcase) => {
-      console.log(testcase);
       expect(() => followPath(testcase[0])).toThrow(
         "Too many or too few starting or ending characters found. Possible fork."
       );
     });
     tests.arrayInvalid.multipleStartingPaths.forEach((testcase) => {
-      console.log(testcase);
       expect(() => followPath(testcase[0])).toThrow(
         "Too many or too few starting or ending characters found. Possible fork."
       );
@@ -132,11 +125,9 @@ describe("followPath invalid maps function", () => {
 
   it("should pass on invalid fakeTurn example string & arrray", () => {
     tests.stringInvalid.fakeTurn.forEach((testcase) => {
-      console.log(testcase);
       expect(() => followPath(testcase[0])).toThrow("Zero possible directions - broken path!");
     });
     tests.arrayInvalid.fakeTurn.forEach((testcase) => {
-      console.log(testcase);
       expect(() => followPath(testcase[0])).toThrow("Zero possible directions - broken path!");
     });
   });
