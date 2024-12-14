@@ -10,7 +10,7 @@ export default function checkStartEnd(input: InputMap): Boolean {
       endN = char === endChar ? endN + 1 : endN;
     }
     if (!(startN === 1 && endN === 1)) {
-      throw new Error("Too many or too few starting or ending characters found.");
+      throw new Error("Too many or too few starting or ending characters found. Possible fork.");
     }
     return true; //for tests purposes
   }

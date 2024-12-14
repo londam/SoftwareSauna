@@ -11,7 +11,7 @@ describe("checkStartEnd function", () => {
     "invalid string with multiple start characters should throw an error: %s",
     (input) => {
       expect(() => checkStartEnd(input)).toThrow(
-        "Too many or too few starting or ending characters found."
+        "Too many or too few starting or ending characters found. Possible fork."
       );
     }
   );
@@ -26,7 +26,7 @@ describe("checkStartEnd function", () => {
     "invalid string with multiple end characters should throw an error: %s",
     (input) => {
       expect(() => checkStartEnd(input)).toThrow(
-        "Too many or too few starting or ending characters found."
+        "Too many or too few starting or ending characters found. Possible fork."
       );
     }
   );

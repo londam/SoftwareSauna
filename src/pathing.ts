@@ -65,7 +65,7 @@ export const getNextPosition = (
         }
 
         //query Next move, first straight then turning to each side
-        checkStraightPossible(possiblePoss, map, currentPos);
+        if (checkStraightPossible(possiblePoss, map, currentPos)) break;
         checkTurnPossible(possiblePoss, map, currentPos);
       }
       break;
@@ -92,8 +92,12 @@ export const getTurnPathDirs = (entryDir: Direction): Direction[] => {
   throw new Error("Invalid input when finding turning path");
 };
 
-export function checkStraightPossible(arr: Position[], map: CharMap, currentPos: Position): void {
-  checkAndAddToPossiblePoss(arr, map, currentPos.pos, straightDir[currentPos.entryDir]);
+export function checkStraightPossible(
+  arr: Position[],
+  map: CharMap,
+  currentPos: Position
+): boolean {
+  return checkAndAddToPossiblePoss(arr, map, currentPos.pos, straightDir[currentPos.entryDir]);
 }
 
 export function checkTurnPossible(arr: Position[], map: CharMap, currentPos: Position): void {
@@ -108,9 +112,12 @@ export function checkAndAddToPossiblePoss(
   map: CharMap,
   currPos: Coord,
   dir: Direction
-) {
+): boolean {
   let nextPos: Coord = nextPosition(currPos, directions[dir]);
   let nextChar: string = getChar(map, nextPos);
-  if (isValidPathChar(nextChar))
+  if (isValidPathChar(nextChar)) {
     arr.push({ pos: nextPos, char: nextChar, entryDir: straightDir[dir] });
+    return true;
+  }
+  return false;
 }

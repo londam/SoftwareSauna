@@ -1,16 +1,10 @@
 import checkStartEnd from "./checkStartEnd";
-import { endChar, horizontal, startChar, straightDir, turn, vertical } from "./consts";
-import { input2map, isLetter, isValidPathChar } from "./helpers";
-import {
-  checkNextPosCount,
-  checkStraightPossible,
-  checkTurnPossible,
-  findStartPos,
-  getNextPosition,
-} from "./pathing";
+import { endChar, startChar } from "./consts";
+import { input2map, isValidPathChar } from "./helpers";
+import { findStartPos, getNextPosition } from "./pathing";
 import { CharMap, Coord, InputMap, Position, Result } from "./types";
 
-function followPath(input: InputMap): Result {
+export function followPath(input: InputMap): Result {
   // easily check for edge cases of no or multiple start/end chars to save time
   checkStartEnd(input);
 
@@ -46,22 +40,21 @@ function followPath(input: InputMap): Result {
 }
 
 let inputMap = `
-  @
-  | +-C--+
-  A |    |
-  +---B--+
-    |      x
-    |      |
-    +---D--+`;
+     x-B
+       |
+@--A---+
+       |
+  x+   C
+   |   |
+   +---+`;
 
 const inputMapA = [
-  ["+", "-", "-", "-", "+", " "],
-  ["|", " ", " ", " ", "|", " "],
-  ["|", " ", "@", "A", "-", "+"],
-  ["|", " ", " ", " ", "x", "|"],
-  ["+", "-", "B", "-", "-", "+"],
-  [" ", " ", " ", " ", " ", " "],
+  ["@", "-", "-", "-", "A", "-", "-", "-", "+"],
+  [" ", " ", " ", " ", " ", " ", " ", " ", "|"],
+  ["x", "-", "B", "-", "+", " ", " ", " ", "|"],
+  [" ", " ", " ", " ", "|", " ", " ", " ", "|"],
+  [" ", " ", " ", " ", "+", "-", "-", "-", "C"],
 ];
-// let output = followPath(inputMap);
-let output = followPath(inputMapA);
+let output = followPath(inputMap);
+// let output = followPath(inputMapA);
 console.log(output);
