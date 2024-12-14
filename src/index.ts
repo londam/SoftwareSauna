@@ -7,7 +7,7 @@ import {
   checkTurnPossible,
   findStartPos,
 } from "./pathing";
-import { CharMap, Coord, InputMap, Positions, Result } from "./types";
+import { CharMap, Coord, InputMap, Position, Result } from "./types";
 
 function followPath(input: InputMap): Result {
   // easily check for edge cases of no or multiple start/end chars to save time
@@ -20,13 +20,13 @@ function followPath(input: InputMap): Result {
   const startPos: Coord = findStartPos(map);
 
   //initializing for while loop:
-  let currentPos: Positions = { char: startChar, pos: startPos, entryDir: "left" };
+  let currentPos: Position = { char: startChar, pos: startPos, entryDir: "left" };
   let letters = "";
   let path = "";
   let visitedLetterCoords = new Set<string>();
 
   while (true) {
-    let possiblePoss: Positions[] = [];
+    let possiblePoss: Position[] = [];
 
     //check if it's a valid map char, if not, stop and throw error!
     // Maybe this can go outside of the loop since we check for the next char?

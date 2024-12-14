@@ -1,6 +1,6 @@
 import { directions, straightDir } from "./consts";
 import { isStart, isValidPathChar } from "./helpers";
-import { CharMap, Coord, Direction, Positions } from "./types";
+import { CharMap, Coord, Direction, Position } from "./types";
 
 //if map[x][y] doesn't exist, return " " -> useful for getting out of bounds of array when looking for possible next position
 //returns character in current position
@@ -17,7 +17,7 @@ export const nextPosition = (pos: Coord, dPos: Coord): Coord => {
   return { x: pos.x + dPos.x, y: pos.y + dPos.y };
 };
 
-export const checkNextPosCount = (possiblePoss: Positions[]): void => {
+export const checkNextPosCount = (possiblePoss: Position[]): void => {
   if (possiblePoss.length > 1)
     throw new Error("Too many possible directions - a fork in the road!");
   if (possiblePoss.length === 0) throw new Error("Zero possible directions - broken path!");
@@ -29,19 +29,25 @@ export const getTurnPathDirs = (entryDir: Direction): Direction[] => {
   throw new Error("Invalid input when finding turning path");
 };
 
-export function checkStraightPossible(arr: Positions[], map: CharMap, currentPos: Positions): void {
-  let nextPos = nextPosition(currentPos.pos, directions[straightDir[currentPos.entryDir]]);
-  let nextChar = getChar(map, nextPos);
-  if (isValidPathChar(nextChar))
-    arr.push({ pos: nextPos, char: nextChar, entryDir: currentPos.entryDir }); //entryDir: direction doesn't change if we go straight!
+export function checkStraightPossible(arr: Position[], map: CharMap, currentPos: Position): void {
+  checkAndAddToPossiblePoss(arr, map, currentPos.pos, straightDir[currentPos.entryDir]);
 }
 
-export function checkTurnPossible(arr: Positions[], map: CharMap, currentPos: Positions): void {
+export function checkTurnPossible(arr: Position[], map: CharMap, currentPos: Position): void {
   const turnDirs: Direction[] = getTurnPathDirs(currentPos.entryDir);
   turnDirs.forEach((turnDir) => {
-    let nextPos = nextPosition(currentPos.pos, directions[turnDir]);
-    let nextChar = getChar(map, nextPos);
-    if (isValidPathChar(nextChar))
-      arr.push({ pos: nextPos, char: nextChar, entryDir: straightDir[turnDir] }); //entryDir: if we turn DOWN on this position, on the next, it's entryDir will be from UP
+    checkAndAddToPossiblePoss(arr, map, currentPos.pos, straightDir[turnDir]);
   });
+}
+
+export function checkAndAddToPossiblePoss(
+  arr: Position[],
+  map: CharMap,
+  currPos: Coord,
+  dir: Direction
+) {
+  let nextPos: Coord = nextPosition(currPos, directions[dir]);
+  let nextChar: string = getChar(map, nextPos);
+  if (isValidPathChar(nextChar))
+    arr.push({ pos: nextPos, char: nextChar, entryDir: straightDir[dir] });
 }
