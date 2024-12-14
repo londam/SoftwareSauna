@@ -1,10 +1,11 @@
-import { directions } from "../consts";
+import { directions, startChar } from "../consts";
 import {
   checkNextPosCount,
   checkStraightPossible,
   checkTurnPossible,
   findStartPos,
   getChar,
+  getNextPosition,
   getTurnPathDirs,
   nextPosition,
 } from "../pathing";
@@ -115,4 +116,78 @@ describe("checkTurnPossible", () => {
   });
 
   //TODO add more examples with other chars (-| and +)
+});
+
+describe("getNextPosition", () => {
+  const letters: string[] = [];
+  const visitedLetterCoords = new Set<string>();
+  it("should handle startChar and endChar positions", () => {
+    const currentPos: Position = { pos: { x: 1, y: 1 }, char: startChar, entryDir: "left" };
+    const nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+
+    expect(nextPos).toEqual({ pos: { x: 1, y: 2 }, char: "A", entryDir: "left" }); // The next position after start should be straight
+  });
+
+  it('should move straight on "-" or "|" without turning', () => {
+    const currentPos: Position = { pos: { x: 0, y: 3 }, char: "+", entryDir: "right" };
+    const nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+
+    expect(nextPos).toEqual({ pos: { x: 1, y: 3 }, char: "-", entryDir: "up" }); // Moving straight to the next valid position
+  });
+
+  it('should turn on "+"', () => {
+    const currentPos: Position = { pos: { x: 0, y: 0 }, char: "+", entryDir: "right" };
+    const nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+
+    expect(nextPos).toEqual({ pos: { x: 1, y: 0 }, char: "|", entryDir: "up" }); // Should turn downwards, as we have '+' (turn)
+  });
+
+  it('should try all directions on "@"', () => {
+    const currentPos: Position = { pos: { x: 1, y: 1 }, char: "@", entryDir: "right" };
+    const nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+
+    // Should explore all directions, likely picking the one that moves down to a valid path
+    expect(nextPos).toEqual({ pos: { x: 1, y: 3 }, char: "A" }); // Continue downwards from '@' to ' ' (empty space)
+  }); //TODO this one fails due to multiple possibilities
+
+  it("should not save letter to list more than once", () => {
+    const currentPos: Position = { pos: { x: 1, y: 2 }, char: "A", entryDir: "right" };
+
+    // First visit
+    let nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+    expect(letters).toContain("A");
+    expect(visitedLetterCoords.size).toBe(1);
+
+    // Second visit should not add 'A' again
+    nextPos = getNextPosition(nextPos, map, letters, visitedLetterCoords);
+    expect(letters.length).toBe(1);
+    expect(visitedLetterCoords.size).toBe(1); // Visited set should not increase
+  });
+
+  it('should handle movement to a valid position when continuing straight from "-" or "|"', () => {
+    const currentPos: Position = { pos: { x: 1, y: 0 }, char: "|", entryDir: "down" };
+    const nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+
+    expect(nextPos).toEqual({ pos: { x: 2, y: 0 }, char: "|" }); // Continue straight down
+  });
+
+  it("should handle a scenario where multiple valid directions are possible", () => {
+    const currentPos: Position = { pos: { x: 1, y: 1 }, char: "A", entryDir: "right" };
+
+    // First visit and attempt to move
+    let nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+    expect(nextPos).toEqual({ pos: { x: 2, y: 1 }, char: " " }); // Moving downwards
+
+    // Now visiting a new letter, should not visit 'A' again
+    currentPos.pos = { x: 2, y: 1 };
+    nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+    expect(nextPos).toEqual({ pos: { x: 3, y: 1 }, char: "B" }); // Move to 'B' as next valid char
+  });
+
+  it("should throw an error if there are no possible next positions", () => {
+    const currentPos: Position = { pos: { x: 2, y: 4 }, char: " ", entryDir: "left" }; // Edge case with no valid moves
+
+    const nextPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
+    expect(nextPos).toBeUndefined(); // No valid next position should return undefined
+  });
 });

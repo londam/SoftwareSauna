@@ -6,6 +6,7 @@ import {
   checkStraightPossible,
   checkTurnPossible,
   findStartPos,
+  getNextPosition,
 } from "./pathing";
 import { CharMap, Coord, InputMap, Position, Result } from "./types";
 
@@ -21,13 +22,11 @@ function followPath(input: InputMap): Result {
 
   //initializing for while loop:
   let currentPos: Position = { char: startChar, pos: startPos, entryDir: "left" };
-  let letters = "";
+  const letters: string[] = [];
   let path = "";
-  let visitedLetterCoords = new Set<string>();
+  const visitedLetterCoords = new Set<string>();
 
   while (true) {
-    let possiblePoss: Position[] = [];
-
     //check if it's a valid map char, if not, stop and throw error!
     // Maybe this can go outside of the loop since we check for the next char?
     // -> we can't. when we check for next char, we ignore invalid chars (and spaces), and here once we move here we yell about it!
@@ -38,66 +37,11 @@ function followPath(input: InputMap): Result {
     // add to path since we validated it's OK char above
     path += currentPos.char;
 
-    //---------RULES--------------------------
+    //--------MOVEMENT-RULES-1/2----------------
     // on "x" -> you stop!
-    // on letter -> check if not visited before (add to list), then move: you try straight, if you can't you try turning
-    // on "+", you always turn
-    // on "@" -> you try all dirs
-    // on "-" or "|" you conitnue straight, playing that you move underground until you land on a valid char. You can't turn on those chars
+    if (currentPos.char === endChar) return { letters: letters.join(""), path };
 
-    // if entryDir:
-    //left  -> check curChar and go either straight (right) or up/down
-    //right ->                -||-                  (left)      -||-
-    //up    ->                -||-                  (down) or left/right
-    //down  ->                -||-                  (up)        -||-
-
-    switch (currentPos.char) {
-      case endChar: {
-        //end the voyage
-        return { letters, path };
-      }
-      case startChar: {
-        checkStraightPossible(possiblePoss, map, currentPos);
-        checkTurnPossible(possiblePoss, map, currentPos);
-        currentPos.entryDir = straightDir[currentPos.entryDir];
-        checkStraightPossible(possiblePoss, map, currentPos);
-        checkNextPosCount(possiblePoss);
-        break;
-      }
-      case horizontal: {
-        //query Next move, first straight then turning to each side
-        checkStraightPossible(possiblePoss, map, currentPos);
-        checkNextPosCount(possiblePoss);
-        break;
-      }
-      case vertical: {
-        //query Next move, first straight then turning to each side
-        checkStraightPossible(possiblePoss, map, currentPos);
-        checkNextPosCount(possiblePoss);
-        break;
-      }
-      case turn: {
-        checkTurnPossible(possiblePoss, map, currentPos);
-        checkNextPosCount(possiblePoss);
-        break;
-      }
-      default:
-        if (isLetter(currentPos.char)) {
-          // ...that's not visited before add to letters
-          let xy = `${currentPos.pos.x},${currentPos.pos.y}`;
-          if (!visitedLetterCoords.has(xy)) {
-            letters += currentPos.char;
-            visitedLetterCoords.add(xy);
-          }
-
-          //query Next move, first straight then turning to each side
-          checkStraightPossible(possiblePoss, map, currentPos);
-          checkTurnPossible(possiblePoss, map, currentPos);
-          checkNextPosCount(possiblePoss);
-        }
-        break;
-    }
-    currentPos = possiblePoss[0];
+    currentPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
   }
 }
 
@@ -109,5 +53,15 @@ let inputMap = `
     |      x
     |      |
     +---D--+`;
-let output = followPath(inputMap);
+
+const inputMapA = [
+  ["+", "-", "-", "-", "+", " "],
+  ["|", " ", " ", " ", "|", " "],
+  ["|", " ", "@", "A", "-", "+"],
+  ["|", " ", " ", " ", "x", "|"],
+  ["+", "-", "B", "-", "-", "+"],
+  [" ", " ", " ", " ", " ", " "],
+];
+// let output = followPath(inputMap);
+let output = followPath(inputMapA);
 console.log(output);
