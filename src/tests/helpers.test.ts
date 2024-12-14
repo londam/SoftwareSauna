@@ -1,4 +1,12 @@
-import { input2map, turnTestsFromStrToArray } from "../helpers";
+import { endChar, startChar, validPathChar } from "../consts";
+import {
+  input2map,
+  isEnd,
+  isLetter,
+  isStart,
+  isValidPathChar,
+  turnTestsFromStrToArray,
+} from "../helpers";
 import { CharMap } from "../types";
 
 describe("input2map function", () => {
@@ -131,5 +139,83 @@ describe("turnTestsFromStrToArray function (using console.log() anywhere when do
 
     // Assertion: console.log should not be called
     expect(consoleSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("isValidPathChar function", () => {
+  it("returns true for all valid path characters", () => {
+    validPathChar.forEach((char) => {
+      expect(isValidPathChar(char)).toBe(true);
+    });
+  });
+
+  it("returns false for invalid characters", () => {
+    const invalidChars = ["#", "%", "9", " ", "!", "$", "/", "\\"];
+    invalidChars.forEach((char) => {
+      expect(isValidPathChar(char)).toBe(false);
+    });
+  });
+
+  it("returns false for an empty string", () => {
+    expect(isValidPathChar("")).toBe(false);
+  });
+
+  it("handles edge cases with special characters", () => {
+    expect(isValidPathChar("@")).toBe(true); // startChar
+    expect(isValidPathChar("x")).toBe(true); // endChar
+    expect(isValidPathChar("+")).toBe(true); // turn
+    expect(isValidPathChar("-")).toBe(true); // horizontal
+    expect(isValidPathChar("|")).toBe(true); // vertical
+    expect(isValidPathChar("Z")).toBe(true); // uppercase letter
+    expect(isValidPathChar("a")).toBe(false); // lowercase letter
+  });
+});
+
+describe("isStart function", () => {
+  it("returns true for the start character", () => {
+    expect(isStart(startChar)).toBe(true);
+  });
+
+  it("returns false for any other character", () => {
+    const nonStartChars = ["x", "-", "|", "+", "A", "B"];
+    nonStartChars.forEach((char) => {
+      expect(isStart(char)).toBe(false);
+    });
+  });
+});
+
+describe("isEnd function", () => {
+  it("returns true for the end character", () => {
+    expect(isEnd(endChar)).toBe(true);
+  });
+
+  it("returns false for any other character", () => {
+    const nonEndChars = ["@", "-", "|", "+", "A", "B"];
+    nonEndChars.forEach((char) => {
+      expect(isEnd(char)).toBe(false);
+    });
+  });
+});
+
+describe("isLetter function", () => {
+  it("returns true for valid uppercase letters", () => {
+    const validLetters = ["A", "B", "Z"];
+    validLetters.forEach((char) => {
+      expect(isLetter(char)).toBe(true);
+    });
+  });
+
+  it("returns false for invalid characters", () => {
+    const invalidChars = ["@", "x", "-", "|", "+", "a", "1", " ", "#"];
+    invalidChars.forEach((char) => {
+      expect(isLetter(char)).toBe(false);
+    });
+  });
+
+  it("returns false for lowercase letters", () => {
+    const lowercaseLetters = ["a", "b", "z"];
+    lowercaseLetters.forEach((char) => {
+      expect(isLetter(char)).toBe(false);
+    });
   });
 });
