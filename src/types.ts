@@ -1,4 +1,5 @@
 export type CharMap = string[][];
+export type InputMap = CharMap | string;
 
 export interface Result {
   letters: string;
@@ -14,5 +15,3 @@ export type Positions = {
   pos: Coord; //coordinates of the position
   char: string; //character in the position
 };
-
-export type InputMap = CharMap | string;

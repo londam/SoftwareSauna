@@ -1,6 +1,6 @@
 import checkStartEnd from "./checkStartEnd";
 import { endChar, horizontal, startChar, straightDir, turn, vertical } from "./consts";
-import { isLetter, isValidPathChar } from "./helpers";
+import { input2map, isLetter, isValidPathChar } from "./helpers";
 import {
   checkNextPosCount,
   checkStraightPossible,
@@ -14,8 +14,7 @@ function followPath(input: InputMap): Result {
   checkStartEnd(input);
 
   // if input is multiline string, convert it to nested array
-  const map: CharMap =
-    typeof input === "string" ? input.split("\n").map((line) => line.split("")) : input;
+  const map: CharMap = input2map(input);
 
   //now we have array, we check where start char is
   const startPos: Coord = findStartPos(map);

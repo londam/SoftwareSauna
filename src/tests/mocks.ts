@@ -6,7 +6,7 @@ export const tests = {
         |
 x-B-+   C
     |   |
-    +---+`,
+    +---+`.trim(),
     ],
     intersections: [
       `
@@ -16,11 +16,11 @@ x-B-+   C
   +---B--+
     |      x
     |      |
-    +---D--+`,
+    +---D--+`.trim(),
       `    +-L-+
     |  +A-+
   @B|+ ++ H
-    ++    x`,
+    ++    x`.trim(),
     ],
     lettersOnTurns: [
       `
@@ -28,7 +28,7 @@ x-B-+   C
           |
   x-B-+   |
       |   |
-      +---C`,
+      +---C`.trim(),
     ],
     doubleCollection: [
       `
@@ -39,20 +39,20 @@ x-B-+   C
      | | +-+ E
      +-+     S
              |
-             x`,
+             x`.trim(),
     ],
     compact: [
       `
  +-L-+
  |  +A-+
 @B+ ++ H
- ++    x`,
+ ++    x`.trim(),
     ],
     ignoreAfterEnd: [
       `
   @-A--+
        |
-       +-B--x-C--D`,
+       +-B--x-C--D`.trim(),
     ],
   },
 
@@ -63,7 +63,7 @@ x-B-+   C
        |
 x-B-+   C
    |   |
-   +---+`,
+   +---+`.trim(),
     ],
     multipleStarts: [
       `
@@ -71,25 +71,25 @@ x-B-+   C
        |
 @B-+   C
    |   |
-   +---+`,
+   +---+`.trim(),
       `
  @--A-@-+
         |
 x-B-+   C
     |   |
-    +---+`,
+    +---+`.trim(),
       `
 @--A---+
        |
        C
        x
-   @-B-+`,
+   @-B-+`.trim(),
       `
 @--A--x
 
 x-B-+
    |
-   @`,
+   @`.trim(),
     ],
     multipleEnds: [
       `
@@ -97,25 +97,25 @@ x-B-+
        |
  x-+   C-x
    |   |
-   +---+`,
+   +---+`.trim(),
       `
  @--A-@-+
         |
 x-B-+   C
     |   |
-    +-x-+`,
+    +-x-+`.trim(),
       `
 @--A---+
        |
    x   C
        x
-   @-B-+`,
+   @-B-+`.trim(),
       `
 @--A--x
 
 x-B-+
    |
-   @`,
+   @`.trim(),
     ],
     fork: [
       `
@@ -125,15 +125,15 @@ x-B-+
        |
   x+   C
    |   |
-   +---+`,
+   +---+`.trim(),
     ],
     multipleStartingPaths: [
       `
-x-B-@-A-x`,
+x-B-@-A-x`.trim(),
     ],
     fakeTurn: [
       `
-@-A-+-B-x`,
+@-A-+-B-x`.trim(),
     ],
   },
 

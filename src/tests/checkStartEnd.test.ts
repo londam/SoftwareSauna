@@ -1,7 +1,6 @@
 import checkStartEnd from "../checkStartEnd";
 import { tests } from "./mocks";
 
-// Test Cases
 describe("checkStartEnd function", () => {
   test("input string with exactly one start and one end character should pass this test", () => {
     const validInput = "@--A---+ B-+ Cx";
