@@ -3,7 +3,6 @@ import { isLetter, isStart, isValidPathChar } from "./helpers";
 import { CharMap, Coord, Direction, Position } from "./types";
 
 //if map[x][y] doesn't exist, return " " -> useful for getting out of bounds of array when looking for possible next position
-//returns character in current position
 export const getChar = (map: CharMap, { x, y }: Coord): string => map[x]?.[y] ?? " ";
 
 export const findStartPos = (map: CharMap): Coord => {
@@ -35,19 +34,13 @@ export const getNextPosition = (
       Object.values(straightDir).forEach((dir) => {
         checkAndAddToPossiblePoss(possiblePoss, map, currentPos.pos, dir);
       });
-      // checkStraightPossible(possiblePoss, map, currentPos);
-      // checkTurnPossible(possiblePoss, map, currentPos);
-      // currentPos.entryDir = straightDir[currentPos.entryDir];
-      // checkStraightPossible(possiblePoss, map, currentPos);
       break;
     }
     case horizontal: {
-      //query Next move, first straight then turning to each side
       checkStraightPossible(possiblePoss, map, currentPos);
       break;
     }
     case vertical: {
-      //query Next move, first straight then turning to each side
       checkStraightPossible(possiblePoss, map, currentPos);
       break;
     }
@@ -64,7 +57,6 @@ export const getNextPosition = (
           visitedLetterCoords.add(xy);
         }
 
-        //query Next move, first straight then turning to each side
         if (checkStraightPossible(possiblePoss, map, currentPos)) break;
         checkTurnPossible(possiblePoss, map, currentPos);
       }

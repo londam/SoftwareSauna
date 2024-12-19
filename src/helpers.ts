@@ -1,5 +1,4 @@
 import { endChar, startChar, validPathChar } from "./consts";
-import { tests } from "./tests/mocks";
 import { CharMap, InputMap } from "./types";
 
 export function input2map(input: InputMap): CharMap {

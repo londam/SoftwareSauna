@@ -8,10 +8,8 @@ export function followPath(input: InputMap): Result {
   // easily check for edge cases of no or multiple start/end chars to save time
   checkStartEnd(input);
 
-  // if input is multiline string, convert it to nested array
   const map: CharMap = input2map(input);
 
-  //now we have array, we check where start char is
   const startPos: Coord = findStartPos(map);
 
   //initializing for while loop:
@@ -21,12 +19,10 @@ export function followPath(input: InputMap): Result {
   const visitedLetterCoords = new Set<string>();
 
   while (true) {
-    //check if it's a valid map char, if not, stop and throw error!
     // Maybe this can go outside of the loop since we check for the next char?
     // -> we can't. when we check for next char, we ignore invalid chars (and spaces), and here once we move here we yell about it!
     if (!isValidPathChar(currentPos.char))
       throw new Error(`Invalid map: contains invalid character '${currentPos.char}'`);
-    //if yes, continue:
 
     // add to path since we validated it's OK char above
     path += currentPos.char;
@@ -38,21 +34,3 @@ export function followPath(input: InputMap): Result {
     currentPos = getNextPosition(currentPos, map, letters, visitedLetterCoords);
   }
 }
-
-// let inputMap = `
-// @---A---+
-//         |
-// x-B-+   C
-//     |   |
-//     +---+`;
-
-// const inputMapA = [
-//   ["@", "-", "-", "-", "A", "-", "-", "-", "+"],
-//   [" ", " ", " ", " ", " ", " ", " ", " ", "|"],
-//   ["x", "-", "B", "-", "+", " ", " ", " ", "|"],
-//   [" ", " ", " ", " ", "|", " ", " ", " ", "|"],
-//   [" ", " ", " ", " ", "+", "-", "-", "-", "C"],
-// ];
-// let output = followPath(inputMap);
-// let output = followPath(inputMapA);
-// console.log(output);

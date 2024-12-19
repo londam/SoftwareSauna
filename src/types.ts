@@ -11,7 +11,7 @@ export type Coord = { x: number; y: number };
 export type Direction = "right" | "left" | "down" | "up";
 
 export type Position = {
-  entryDir: Direction; //direction from where we entered
-  pos: Coord; //coordinates of the position
-  char: string; //character in the position
+  entryDir: Direction;
+  pos: Coord;
+  char: string;
 };
